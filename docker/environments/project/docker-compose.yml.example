@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: ${PROJECT_NAME}-webserver
+    restart: always
+    working_dir: /var/www
+    volumes:
+      - ${PROJECT_PATH}:/var/www/${PROJECT_NAME}
+      - ${DOCKER_PROJECT_PATH}/environments/project/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ${DOCKER_PROJECT_PATH}/environments/project/logs/nginx:/var/log/nginx/
+    links:
+      - php-fpm
+    ports:
+      - "8010:80"
+      - "9010:9000"
+    networks:
+      ${NETWORK_NAME}:
+        ipv4_address: ${NGINX_HOST}
+
+  php-fpm:
+    build: php-fpm
+    container_name: ${PROJECT_NAME}-php-fpm
+    image: ${PROJECT_NAME}/php-fpm:latest
+    restart: always
+    working_dir: /var/www
+    volumes:
+      - ${PROJECT_PATH}:/var/www/${PROJECT_NAME}
+      - ${DOCKER_PROJECT_PATH}/environments/project/php-fpm/overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+      - ${DOCKER_PROJECT_PATH}/environments/project/logs/php-fpm:/var/log/php-fpm
+    external_links:
+      - webserver:${APP_URL}
+    networks:
+      ${NETWORK_NAME}:
+        ipv4_address: ${PHP_HOST}
+
+networks:
+  ${NETWORK_NAME}:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: ${NETWORK_IP}/16
