@@ -39,9 +39,9 @@ class Customer extends Model
 
     /**
      * Get mutator state
-     * @return bool
+     * @return string
      */
-    public function getStateAttribute(): bool
+    public function getStateAttribute(): string
     {
         switch (true) {
             case preg_match("/\(237\)\ ?[2368]\d{7,8}$/", $this->phone): // Cameroon
@@ -49,10 +49,10 @@ class Customer extends Model
             case preg_match("/\(212\)\ ?[5-9]\d{8}$/", $this->phone): // Morocco
             case preg_match("/\(258\)\ ?[28]\d{7,8}$/", $this->phone): // Mozambique
             case preg_match("/\(256\)\ ?\d{9}$/", $this->phone): // Uganda
-                $state = true;
+                $state = 'OK';
                 break;
             default:
-                $state = false;
+                $state = 'NOK';
         }
 
         return $state;

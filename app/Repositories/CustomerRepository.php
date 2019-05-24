@@ -41,9 +41,9 @@ class CustomerRepository
      * @return LengthAwarePaginator
      */
     public function getAll(
-        string $orderColumn = 'customer.name',
+        string $orderColumn = 'country.name',
         string $orderDirection = 'ASC',
-        int $paginate = 15
+        int $paginate = 10
     )
     {
         return $this->customer->query()
