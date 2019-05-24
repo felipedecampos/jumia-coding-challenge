@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('customer');
 });
+
+Route::get('/customer', 'CustomerController@index')->name('customer');
