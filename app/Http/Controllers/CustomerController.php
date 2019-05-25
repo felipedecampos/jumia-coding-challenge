@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\CustomerRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -20,16 +21,12 @@ class CustomerController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param Request $request
-     * @return View
+     * @return JsonResponse
      */
-    public function index(Request $request): View
+    public function index(): JsonResponse
     {
-        $sort  = $request->input('sort', 'country');
-        $order = $request->input('order', null);
-
         $customers = $this->customerRepository->getAll();
 
-        return view('customer', compact(['customers', 'sort', 'order']));
+        return response()->json($customers);
     }
 }
