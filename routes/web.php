@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return redirect()->route('customer');
+    return view('customer');
 });
 
-Route::get('/customer', 'CustomerController@index')->name('customer');
+Route::get('/customers', 'CustomerController@index')->name('customer');
+Route::get('/countries', 'CountryController@list')->name('country');
