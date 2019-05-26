@@ -1,4 +1,4 @@
-# Coding challenge - List and categorize country by phone numbers
+# Coding challenge - List phone numbers and categorize by country
 
 ### CHALLENGE
 Create a single page application that uses the database provided (SQLite 3) to list and

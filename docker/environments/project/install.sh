@@ -13,9 +13,9 @@ else
     exit 0
 fi
 
-read -p "Project name [jumia]: " projectname
+read -p "Project name [jumia-coding-challenge]: " projectname
 if [ -z "$projectname" ]; then
-    projectname="jumia"
+    projectname="jumia-coding-challenge"
 fi
 
 r_projectname="$(echo $projectname | sed -e 's/\(.*\)/\L\1/' | awk '{$1=$1};1' | sed -e 's/[[:space:]]\+/\-/g')"
@@ -112,6 +112,8 @@ if [[ "$yn" != "n" ]]; then
     chmod 777 $(find ../storage/ -not -name ".gitignore")
     chmod 777 $(find ../bootstrap/cache/ -not -name ".gitignore")
 
+    docker exec --user docker $r_projectname-php-fpm /bin/bash -c "cd $r_projectname && npm install"
+
     read -p "Do you want to add the project host on your /etc/hosts file? (warning: This command needs the sudo privilege) y/n? [n]: " yn
     if [[ "$yn" = "y" ]]; then
         etchosts=/etc/hosts
@@ -134,6 +136,8 @@ if [[ "$yn" != "n" ]]; then
     else
         echo -e "\n\e[33mPlease, put in your /etc/hosts file the host of this project: \n\n$nginxhost\t$appurl\e[0m\n"
     fi
+
+    docker exec --user docker $r_projectname-php-fpm /bin/bash -c "cd $r_projectname && npm run dev"
 
     echo -e "\nProject \e[32m$r_projectname\e[0m was successfully installed \n"
 
