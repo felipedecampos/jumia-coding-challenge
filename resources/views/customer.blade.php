@@ -12,6 +12,6 @@
 <div id="app">
     <data-component></data-component>
 </div>
-<script src="{{asset('js/app.js')}}" ></script>
+<script src="{{asset('js/app.js')}}"></script>
 </body>
 </html>
