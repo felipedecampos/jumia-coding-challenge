@@ -40,7 +40,7 @@ nginxhost="$networkipbase.2"
 phphost="$networkipbase.3"
 dbconnection="sqlite"
 dbhost="127.0.0.1"
-dbname="/var/www/jumia/database/sample.db"
+dbname="/var/www/$r_projectname/database/sample.db"
 dbport="3306"
 
 r_dockerprojectpath=${DOCKER_PROJECT_PATH////\\/}
@@ -98,7 +98,7 @@ if [[ "$yn" != "n" ]]; then
     sed -i "s/APP_URL\=http\:\/\/localhost/APP_URL\=http\:\/\/$appurl/g" $projectpath/.env
     sed -i "s/DB_CONNECTION\=mysql/DB_CONNECTION\=$dbconnection/g" $projectpath/.env
     sed -i "s/DB_HOST\=127\.0\.0\.1/DB_HOST\=$dbhost/g" $projectpath/.env
-    sed -i "s/DB_PORT\=3306/DB_PORT\=${dbport%?}/g" $projectpath/.env
+    sed -i "s/DB_PORT\=3306/DB_PORT\=${dbport}/g" $projectpath/.env
     sed -i "s/DB_DATABASE\=homestead/DB_DATABASE\=$r_dbname/g" $projectpath/.env
 
     docker-compose -f $DOCKER_PROJECT_PATH/environments/project/docker-compose.yml --project-name $r_projectname up -d --force-recreate --build --remove-orphans
