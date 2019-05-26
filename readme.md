@@ -216,7 +216,7 @@ Please, fill the variables of the files created above, follow the examples bello
     
     > DB_PORT=3306
     
-    > DB_DATABASE=/var/www/jumia/database/sample.db
+    > DB_DATABASE=/var/www/jumia-coding-challenge/database/sample.db
 
 In the **project folder** run:
 
