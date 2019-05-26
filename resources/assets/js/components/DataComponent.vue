@@ -18,9 +18,11 @@
                                         <select
                                             name="country"
                                             id="country"
+                                            v-model="country"
                                             class="form-control form-control-xs"
+                                            v-on:change="getResults"
                                         >
-                                            <option>Select country</option>
+                                            <option value="null">Select country</option>
                                             <option v-for="(item, index) in countriesList" :key="index" :value="index">
                                                 {{ item }}
                                             </option>
@@ -30,9 +32,11 @@
                                         <select
                                             name="state"
                                             id="state"
+                                            v-model="state"
                                             class="form-control form-control-xs"
+                                            v-on:change="getResults"
                                         >
-                                            <option>Valid phone numbers</option>
+                                            <option value="null">Valid phone numbers</option>
                                             <option value="OK">OK</option>
                                             <option value="NOK">NOK</option>
                                         </select>
@@ -89,6 +93,8 @@
             return {
                 laravelData: {},
                 countriesList: {},
+                country: null,
+                state: null,
             }
         },
         created() {
@@ -96,12 +102,31 @@
             this.getResults();
             this.listCountries();
         },
+        watch: {
+            country (after, before) {
+                this.getResults();
+            },
+            state (after, before) {
+                this.getResults();
+            }
+        },
         methods: {
             getResults(page) {
                 if (typeof page === 'undefined') {
                     page = 1;
                 }
-                this.$http.get('/customers?page=' + page)
+
+                let qryString = '';
+
+                if (typeof this.country === 'string' && this.country !== 'null' && this.country !== '') {
+                    qryString += '&country=' + this.country;
+                }
+
+                if (typeof this.state === 'string' && this.state !== 'null' && this.state !== '') {
+                    qryString += '&state=' + this.state;
+                }
+
+                this.$http.get('/customers?page=' + page + qryString)
                     .then(response => {
                     return response.json();
                 }).then(data => {

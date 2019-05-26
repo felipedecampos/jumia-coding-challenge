@@ -46310,6 +46310,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -46318,7 +46322,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             laravelData: {},
-            countriesList: {}
+            countriesList: {},
+            country: null,
+            state: null
         };
     },
     created: function created() {
@@ -46327,6 +46333,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.listCountries();
     },
 
+    watch: {
+        country: function country(after, before) {
+            this.getResults();
+        },
+        state: function state(after, before) {
+            this.getResults();
+        }
+    },
     methods: {
         getResults: function getResults(page) {
             var _this = this;
@@ -46334,7 +46348,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (typeof page === 'undefined') {
                 page = 1;
             }
-            this.$http.get('/customers?page=' + page).then(function (response) {
+
+            var qryString = '';
+
+            if (typeof this.country === 'string' && this.country !== 'null' && this.country !== '') {
+                qryString += '&country=' + this.country;
+            }
+
+            if (typeof this.state === 'string' && this.state !== 'null' && this.state !== '') {
+                qryString += '&state=' + this.state;
+            }
+
+            this.$http.get('/customers?page=' + page + qryString).then(function (response) {
                 return response.json();
             }).then(function (data) {
                 _this.laravelData = data;
@@ -46374,11 +46399,39 @@ var render = function() {
                     _c(
                       "select",
                       {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.country,
+                            expression: "country"
+                          }
+                        ],
                         staticClass: "form-control form-control-xs",
-                        attrs: { name: "country", id: "country" }
+                        attrs: { name: "country", id: "country" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.country = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            _vm.getResults
+                          ]
+                        }
                       },
                       [
-                        _c("option", [_vm._v("Select country")]),
+                        _c("option", { attrs: { value: "null" } }, [
+                          _vm._v("Select country")
+                        ]),
                         _vm._v(" "),
                         _vm._l(_vm.countriesList, function(item, index) {
                           return _c(
@@ -46398,13 +46451,60 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _c("th", [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.state,
+                            expression: "state"
+                          }
+                        ],
+                        staticClass: "form-control form-control-xs",
+                        attrs: { name: "state", id: "state" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.state = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            },
+                            _vm.getResults
+                          ]
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "null" } }, [
+                          _vm._v("Valid phone numbers")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "OK" } }, [
+                          _vm._v("OK")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "NOK" } }, [
+                          _vm._v("NOK")
+                        ])
+                      ]
+                    )
+                  ]),
                   _vm._v(" "),
                   _c("th", { attrs: { colspan: "2" } }, [_vm._v(" ")])
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "tfoot",
@@ -46492,27 +46592,6 @@ var staticRenderFns = [
           [_c("h2", [_c("strong", [_vm._v("Phone numbers")])])]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c(
-        "select",
-        {
-          staticClass: "form-control form-control-xs",
-          attrs: { name: "state", id: "state" }
-        },
-        [
-          _c("option", [_vm._v("Valid phone numbers")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "OK" } }, [_vm._v("OK")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "NOK" } }, [_vm._v("NOK")])
-        ]
-      )
     ])
   },
   function() {
