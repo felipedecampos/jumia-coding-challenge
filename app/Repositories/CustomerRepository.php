@@ -47,8 +47,7 @@ class CustomerRepository
         string $orderColumn = 'country.name',
         string $orderDirection = 'ASC',
         int $paginate = 10
-    )
-    {
+    ) {
         $query = $this->customer->query()
             ->select([
                 'customer.id',
@@ -57,7 +56,7 @@ class CustomerRepository
                 $this->db->raw('country.name AS country'),
                 'country.code'
             ])
-            ->leftJoin('country', function($join) {
+            ->leftJoin('country', function ($join) {
                 $join->on('country.code', '=', $this->db->raw('SUBSTR(`customer`.`phone`, 2, 3)'));
             })
             ->orderBy($orderColumn, $orderDirection);
@@ -95,7 +94,9 @@ class CustomerRepository
         $itemsForCurrentPage = $items->slice($offSet, $perPage);
 
         return new \Illuminate\Pagination\LengthAwarePaginator(
-            $itemsForCurrentPage, $items->count(), $perPage,
+            $itemsForCurrentPage,
+            $items->count(),
+            $perPage,
             \Illuminate\Pagination\Paginator::resolveCurrentPage(),
             ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
         );

@@ -32,19 +32,19 @@ To validate the code for consistency with a coding standard go to the **project 
 
 **PSR-1**
 ```shell
-$ vendor/bin/phpcs --standard=PSR1 --extensions=php --ignore=*/database/*,*/resources/*,*/storage/*,*/vendor/*,*/public/index.php,*/tests/bootstrap.php,*/bootstrap/cache/* .
+$ vendor/bin/phpcs --standard=PSR1 --extensions=php --ignore=*/database/*,*/resources/*,*/storage/*,*/vendor/*,*/public/index.php,*/bootstrap/cache/* .
 ```
 
 **PSR-2**
 
 ```shell
-$ vendor/bin/phpcs --standard=PSR2 --extensions=php --ignore=*/database/*,*/resources/*,*/storage/*,*/vendor/*,*/public/index.php,*/tests/bootstrap.php,*/bootstrap/cache/* .
+$ vendor/bin/phpcs --standard=PSR2 --extensions=php --ignore=*/database/*,*/resources/*,*/storage/*,*/vendor/*,*/public/index.php,*/bootstrap/cache/* .
 ```
 
 **PSR-12**
 
 ```shell
-$ vendor/bin/phpcs --standard=PSR12 --extensions=php --ignore=*/database/*,*/resources/*,*/storage/*,*/vendor/*,*/public/index.php,*/tests/bootstrap.php,*/bootstrap/cache/* .
+$ vendor/bin/phpcs --standard=PSR12 --extensions=php --ignore=*/database/*,*/resources/*,*/storage/*,*/vendor/*,*/public/index.php,*/bootstrap/cache/* .
 ```
 
 ## ** How to install the project environment **
